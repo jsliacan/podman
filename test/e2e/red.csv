@@ -1,0 +1,17 @@
+benchmarks_test.go, podman-registry executable not found in path
+build_test.go, btrfs error
+checkpoint_test, btrfs error
+commit_test.go, env secret and exposed port
+container_create_volume_test.go,
+containers_conf_test.go, many failed
+cp_test.go, podman cp volume fails
+create_staticip_test.go, podman ip not supported without network in rootless mode
+create_staticmac_test.go, 
+create_test.go, docker.io access denied + container state improper + remote image + mounting problems
+exec_test.go, env var secret issue and preserve fds sanity check failure
+generate_kube_test.go, 8 errors 36 passed
+generate_systemd_test.go, 2 errors 31 passed
+healthcheck_run_test.go, 3 errors 15 passed
+images_test.go, 17 errors 8 passed
+info_test.go, 2 errors 3 passed
+inspect_test.go, 3 errors 29 passed
