@@ -1,0 +1,5 @@
+checkpoint_image_test.go
+cleanup_test.go
+container_clone_test.go
+generate_spec_test.go
+image_sign_test.go
