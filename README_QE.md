@@ -30,6 +30,11 @@ Both options assume you're in the repository's home dir. Also, to continue the e
     go test -v test/e2e/custom_libpod_suite_test.go test/e2e/custom_common_test.go test/e2e/config.go test/e2e/custom_config_amd64.go test/e2e/start_test.go
     ```
 
+**Example**
+Running the test binary that we built above against CRC's podman-remote client. 
+
+[![asciicast](https://asciinema.org/a/dqmQ9iuElnXkqBWk84FZhwErb.svg)](https://asciinema.org/a/dqmQ9iuElnXkqBWk84FZhwErb)
+
 
 ## Notes
 
