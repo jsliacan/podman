@@ -14,7 +14,7 @@ The tests check the presence of this variable and execute against your binary.
 The following command should be run from the repository's home dir. For simplicity, we will only build the `start_test.go` test. The entire testsuite can be built by supplying `.` instead of the test name. _To be solved_: how to build a binary from a selection of tests containing a number of tests strictly between 1 and all. 
 
 ```bash
-GOARCH=amd64 GOOS=linux go test -v test/e2e/custom_libpod_suite_test.go test/e2e/custom_common_test.go test/e2e/config.go test/e2e/custom_config_amd64.go  test/e2e/start_test.go -tags "containers_image_openpgp exclude_graphdriver_btrfs exclude_graphdriver_devicemapper" -c -o ./linux-amd64/integration.test
+GOARCH=amd64 GOOS=linux go test -v test/e2e/custom_libpod_suite_test.go test/e2e/custom_common_test.go test/e2e/config.go test/e2e/custom_config_amd64.go  test/e2e/start_test.go -tags "containers_image_openpgp exclude_graphdriver_btrfs exclude_graphdriver_devicemapper" -c -o ./out/linux-amd64/integration.test
 ```
 
 ### Run
@@ -23,7 +23,7 @@ Both options assume you're in the repository's home dir. Also, to continue the e
 
 - If you have a test binary (e.g. that you built like above)
     ```bash
-    ./linux-amd64/integration.test
+    ./out/linux-amd64/integration.test
     ```
 - If you have Go on the host and want to run tests directly via go test. 
     ```bash
