@@ -998,3 +998,22 @@ clean: clean-binaries ## Clean all make artifacts
 		docs/build \
 		.venv
 	make -C docs clean
+
+#  Build prc-e2e test binary
+.PHONY: build_prc_e2e
+build_prc_e2e: 
+	rm -rf out/linux-amd64/$(wildcard prc-*.*)
+	GOARCH=amd64 GOOS=linux go test -v test/e2e/custom_libpod_suite_test.go test/e2e/custom_common_test.go test/e2e/config.go test/e2e/custom_config_amd64.go  test/e2e/start_test.go -tags "containers_image_openpgp exclude_graphdriver_btrfs exclude_graphdriver_devicemapper" -c -o ./build/linux-amd64/prc-e2e.test
+
+#  Build the container image for prc-e2e
+.PHONY: containerized_prc_e2e
+containerized_prc_e2e:
+ifndef PRC_E2E_IMG_VERSION
+COMMIT_SHA=$(shell git rev-parse --short HEAD)
+PRC_E2E_IMG_VERSION=vlatest-$(COMMIT_SHA)
+endif
+CONTAINER_RUNTIME ?= podman
+IMG_E2E = quay.io/crcont/prc-e2e:$(PRC_E2E_IMG_VERSION)
+containerized_prc_e2e:
+	$(CONTAINER_RUNTIME) build -t $(IMG_E2E) -f images/build-prc-e2e/Dockerfile .
+
