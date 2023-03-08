@@ -125,8 +125,23 @@ PRC_E2E_IMG_VERSION=vlatest make containerized_prc_e2e
 ```
 It is assumed that your podman binary resides in `/usr/bin/podman`. Change as needed under `containerized_prc_e2e` target in the `Makefile`. 
 
-Push to quay with:
+Push to quay with (if not logged in, do `podman login quay.io` and enter your credentials):
 
 ```bash
 podman push quay.io/crcont/prc-e2e:v${VERSION}
 ```
+### Run the tests from the container
+
+Assuming you're on a linux machine, make sure that the directory from which you're running the command below contains a subdir `output` (that's where results and logs will be copied into). Also, `TARGET_HOST` can be either its IP or its domain name. And `id_rsa` is the private key used to log into the host. It should be placed in the current directory. Then run
+
+```bash
+podman run --rm -it --name prc-e2e \
+    -e PLATFORM=linux \
+    -e TARGET_HOST=$IP \
+    -e TARGET_HOST_USERNAME=$USER \
+    -e TARGET_HOST_KEY_PATH=/opt/crc/id_rsa \
+    -v $PWD/id_rsa:/opt/crc/id_rsa:Z \
+    -v $PWD/output:/output:Z \
+    quay.io/crcont/prc-e2e:vlatest
+```
+After all the steps are finished, you should be able to see a tests log file `./output/prc-e2e.results`. 

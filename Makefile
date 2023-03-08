@@ -940,9 +940,13 @@ clean: clean-binaries ## Clean all make artifacts
 #  Build prc-e2e test binary
 .PHONY: build_prc_e2e
 build_prc_e2e: 
-	rm -rf out/linux-amd64/$(wildcard prc-*.*)
+	rm -rf build/linux-amd64/$(wildcard prc-*.*)
+	rm -rf build/windows-amd64/$(wildcard prc-*.*)
+#	rm -rf build/macos-amd64/$(wildcard prc-*.*)
+#	GOARCH=amd64 GOOS=darwin go test -v test/e2e/custom_libpod_suite_test.go test/e2e/custom_common_test.go test/e2e/config.go test/e2e/custom_config_amd64.go  test/e2e/start_test.go -tags "containers_image_openpgp exclude_graphdriver_btrfs exclude_graphdriver_devicemapper" -c -o ./build/macos-amd64/prc-e2e.test
 	GOARCH=amd64 GOOS=linux go test -v test/e2e/custom_libpod_suite_test.go test/e2e/custom_common_test.go test/e2e/config.go test/e2e/custom_config_amd64.go  test/e2e/start_test.go -tags "containers_image_openpgp exclude_graphdriver_btrfs exclude_graphdriver_devicemapper" -c -o ./build/linux-amd64/prc-e2e.test
-
+	GOARCH=amd64 GOOS=windows CGO_ENABLED=1 CC=x86_64-w64-mingw32-gcc go test -v test/e2e/custom_libpod_suite_test.go test/e2e/custom_common_test.go test/e2e/config.go test/e2e/custom_config_amd64.go  test/e2e/start_test.go -tags "containers_image_openpgp exclude_graphdriver_btrfs exclude_graphdriver_devicemapper" -c -o ./build/windows-amd64/prc-e2e.test.exe
+    
 #  Build the container image for prc-e2e
 .PHONY: containerized_prc_e2e
 containerized_prc_e2e:

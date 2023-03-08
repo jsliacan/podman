@@ -57,6 +57,9 @@ EXECUTION_FOLDER="/Users/${TARGET_HOST_USERNAME}/crc-e2e"
 if [[ ${PLATFORM} == 'linux' ]]; then
     EXECUTION_FOLDER="/home/${TARGET_HOST_USERNAME}/crc-e2e"
 fi
+if [[ ${PLATFORM} == 'windows' ]]; then
+    EXECUTION_FOLDER="C:\\Users\\${TARGET_HOST_USERNAME}/crc-e2e"
+fi
 DATA_FOLDER="${EXECUTION_FOLDER}/out"
 if [[ ${PLATFORM} == 'windows' ]]; then
     # Todo change for powershell cmdlet
@@ -73,13 +76,15 @@ echo "Running podman-remote-client e2e tests"
 # e2e envs
 if [[ ${PLATFORM} == 'windows' ]]; then
     # BINARY_EXEC="(New-Object -ComObject "Shell.Application").minimizeall(); \$env:SHELL=\"powershell\"; "
-    BINARY_EXEC="\$env:SHELL=\"powershell\"; "
+    BINARY_EXEC="\$env:SHELL=\"powershell\"; " 
+    BINARY_EXEC+="\$env:PODMAN_BINARY='C:\\Users\\${TARGET_HOST_USERNAME}\\.crc\\bin\\oc\\podman.exe'; "
+    BINARY_EXEC+="cd ${EXECUTION_FOLDER}/bin ./${BINARY} > ${RESULTS_FILE}.results"
 fi
-
 if [[ ${PLATFORM} == 'darwin' ]]; then
-    BINARY_EXEC+="sudo su - ${TARGET_HOST_USERNAME} -c \"PATH=\$PATH:/usr/local/bin && cd ${EXECUTION_FOLDER}/bin && ./${BINARY} > ${RESULTS_FILE}.results\""
-else
-    BINARY_EXEC+="cd ${EXECUTION_FOLDER}/bin && ./${BINARY} > ${RESULTS_FILE}.results"
+    BINARY_EXEC+="sudo su - ${TARGET_HOST_USERNAME} -c \"PATH=\$PATH:/usr/local/bin && cd ${EXECUTION_FOLDER}/bin && PODMAN_BINARY=/Users/${TARGET_HOST_USERNAME}/.crc/bin/oc/podman ./${BINARY} > ${RESULTS_FILE}.results\""
+fi
+if [[ ${PLATFORM} == 'linux' ]]; then
+    BINARY_EXEC+="cd ${EXECUTION_FOLDER}/bin && PODMAN_BINARY=/home/${TARGET_HOST_USERNAME}/.crc/bin/oc/podman ./${BINARY} > ${RESULTS_FILE}.results"
 fi
 # Execute command remote
 $SSH ${REMOTE} ${BINARY_EXEC}

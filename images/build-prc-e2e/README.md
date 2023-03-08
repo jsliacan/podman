@@ -29,7 +29,7 @@ podman run --rm -it --name prc-e2e \
     -e TARGET_HOST_KEY_PATH=/opt/crc/id_rsa \
     -v $PWD/id_rsa:/opt/crc/id_rsa:Z \
     -v $PWD/output:/output:Z \
-    quay.io/crcont/podman-e2e:vlatest
+    quay.io/crcont/prc-e2e:vlatest
 
 # Run e2e on windows platform with ssh password and crc released version
 podman run --rm -it --name prc-e2e \
@@ -38,5 +38,5 @@ podman run --rm -it --name prc-e2e \
     -e TARGET_HOST_USERNAME=$USER \
     -e TARGET_HOST_PASSWORD=$PASSWORD \
     -v $PWD/output:/output:Z \
-    quay.io/crcont/podman-e2e:vlatest
+    quay.io/crcont/prc-e2e:vlatest
 ```
